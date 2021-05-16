@@ -6,6 +6,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QWebPage *page = ui->webRenderView->page();
+    QWebSettings *settings = page->settings();
+    settings->setAttribute(QWebSettings::JavascriptEnabled, true);
+    settings->setAttribute(QWebSettings::PluginsEnabled, true);
 }
 
 MainWindow::~MainWindow()
@@ -16,7 +20,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_mainSearchPB_clicked()
 {
-    QString searchToken = ui->urlLineEdit->text();
+    QString searchToken = ui->urlLineEdit->currentText();
+    urlToken.clear();
     urlToken.setUrl(searchToken);
-    ui->webRenderView->setUrl(urlToken);
+    ui->webRenderView->load(urlToken);
 }
